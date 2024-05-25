@@ -9,10 +9,6 @@ class Header extends Page {
      * define selectors using getter methods
      */
 
-    public get apiNavItem () {
-        return $('a[href="/docs/api"]');
-    }
-
     public get search() {
         return $('span.DocSearch-Button-Placeholder');
     }
@@ -21,8 +17,8 @@ class Header extends Page {
         return $('[id="docsearch-input"]');
     }
 
-    public async clickAPINavItem() {
-        await this.apiNavItem.click();
+    public get searchResultsList () {
+        return $('[id="docsearch-list"]');
     }
 
     public async clickSearch() {
