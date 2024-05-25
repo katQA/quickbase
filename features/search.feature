@@ -21,5 +21,5 @@ Feature: The Internet Guinea Pig Website
   Scenario: Search for special charracter
     Given I open webdriverio page
     When I go to API
-    And search for <@>
+    And search for <$>
     Then search results are displayed
