@@ -50,27 +50,14 @@ When(/^I click on the (.*) section in the left navigation bar$/, async (item: st
 
 Then(/^the correct list under the Protocols section is displayed$/, async () => {
    const navItemsProtocols = ['Appium', "Chromium", "Firefox", "JSON Wire Protocol", "Mobile JSON Wire Protocol", "Sauce Labs", "Selenium Standalone", "WebDriver Protocol", "WebDriver Bidi Protocol"];
-   
-//    await browser.waitUntil(async () => {
-//     const items = await pages.api.navItemProtocolsListItems;
-//     await expect(items.length).toEqual(9);
 
-//     await items.map(async (elem) => {
-//         console.log("texttchetoo " + elem.getText())
+//  browser.waitUntil(async () => {
+//  const elems = await pages.leftNav.navItemProtocolsListItems;
+//  return await expect(elems.length).toEqual(9);
 
-//     expect(navItemsProtocols).toContain(await elem.getText());
+   await browser.pause(3000);
 
-// });  
-
-//      }, 
-//     {
-//         timeout: 10000,
-//      }
-// );
-
-    await browser.pause(3000);
-
-    const items = await pages.leftNav.navItemProtocolsListItems;
+   const items = await pages.leftNav.navItemProtocolsListItems;
 
     await expect(items.length).toEqual(9);
 

@@ -9,7 +9,7 @@ This project is meant as a demo project for Quickbase. Which implements few test
 3. Cucumber -> Framework used for Behavior-Driven Development (BDD) 
 
 ## Installation
-1. Clone the git repo `git clone `
+1. Clone the git repo `git clone https://github.com/katQA/quickbase.git`
 2. Go to the project folder and run `npm install`
 3. To execute the tests run `npm run wdio`
 

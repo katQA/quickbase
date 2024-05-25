@@ -4,7 +4,7 @@ import Page from './page.js';
 /**
  * sub page containing specific selectors and methods for a specific page
  */
-class RightHandsideNav extends Page {
+class MainNavigation extends Page {
     /**
      * define selectors using getter methods
      */
@@ -50,4 +50,4 @@ class RightHandsideNav extends Page {
     }
 }
 
-export default new RightHandsideNav();
+export default new MainNavigation();
