@@ -17,10 +17,6 @@ class MainNavigation extends Page {
         return $('a[href="/docs/api"]');
     }
 
-    public get envVariablesNavItem () {
-        return $('a[href="/docs/api/environment"]');
-    }
-
     public get search() {
         return $('span.DocSearch-Button-Placeholder');
     }
@@ -31,10 +27,6 @@ class MainNavigation extends Page {
 
     public async clickAPINavItem() {
         await this.apiNavItem.click();
-    }
-
-    public async clickEnvVariablesNavItem() {
-        await this.envVariablesNavItem.click();
     }
 
     public async clickSearch() {
