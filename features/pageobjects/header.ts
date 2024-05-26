@@ -21,12 +21,32 @@ class Header extends Page {
         return $('[id="docsearch-list"]');
     }
 
-    public async clickSearch() {
+    public navItem (item: string) {
+        return $('a[href="/docs/api/' + item + '"]');
+    }
+
+    public get apiNavItem () {
+        return $('a[href="/docs/api"]');
+    }
+
+    public async apiNavItemClick() {
+        await this.apiNavItem.click();
+    }
+
+    public async navItemClick (item: string) {
+        await this.navItem(item).click();
+    }
+
+    public async searchInputClick() {
         await this.search.click()
     }
 
-    public async typeInSearchInput(searchTerm: string) {
-        (await this.searchInput).setValue(searchTerm);
+    public async searchInputClear() {
+        await this.searchInput.clearValue();
+    }
+
+    public async searchInputType(searchTerm: string) {
+        await this.searchInput.setValue(searchTerm);
     }
 }
 

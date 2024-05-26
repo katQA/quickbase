@@ -1,10 +1,10 @@
-Feature: The Internet Guinea Pig Website
+Feature: Search functionality
 
   Scenario: Search for click
     Given I open webdriverio page
     When I go to API
     And search for <click>
-    Then the correct information/page is returned
+    Then the correct API page is returned
 
   Scenario: Ensure Protocols section has correct list items
     Given I open webdriverio page
@@ -16,7 +16,7 @@ Feature: The Internet Guinea Pig Website
     Given I open webdriverio page
     When I go to API
     And I click on the Environment section in the left navigation bar
-    Then the correct information/page for Environment Variables is returned
+    Then the correct Environment Variables page is returned
 
   Scenario: Search for special charracter
     Given I open webdriverio page

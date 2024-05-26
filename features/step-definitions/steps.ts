@@ -4,13 +4,13 @@ import { Key } from 'webdriverio'
 
 import LeftNavigation from '../pageobjects/left-navigation.js';
 import Header from '../pageobjects/header.js';
-import MainNavigation from '../pageobjects/main-navigation.js';
 
 const pages = {
     header: Header,
     leftNav: LeftNavigation,
-    mainNav: MainNavigation,
 }
+
+const NAV_ITEMS_PROTOCOLS = ["Appium", "Chromium", "Firefox", "JSON Wire Protocol", "Mobile JSON Wire Protocol", "Sauce Labs", "Selenium Standalone", "WebDriver Protocol", "WebDriver Bidi Protocol"];
 
 Given(/^I am on the (\w+) page$/, async (page) => {
     await pages[page].open()
@@ -21,25 +21,26 @@ Given(/^I open webdriverio page$/, async () => {
 });
 
 When(/^I go to API$/, async () => {
-    pages.mainNav.clickAPINavItem();
+    pages.header.apiNavItemClick();
 });
 
 When(/^I go to Environment Variables$/, async () => {
-    pages.mainNav.clickAPINavItem();
+    pages.header.navItemClick('environment');
 });
 
 When(/^search for (.*)$/, async (searchTerm) => {
-    pages.header.clickSearch();
-    pages.header.typeInSearchInput(searchTerm);
+    pages.header.searchInputClick();
+    pages.header.searchInputClear();
+    pages.header.searchInputType(searchTerm);
     await browser.keys(Key.Enter);
 });
 
-Then(/^the correct information\/page is returned$/, async () => {
+Then(/^the correct API page is returned$/, async () => {
     await browser.url('https://webdriver.io/docs/api/element/click/');
     await expect(browser).toHaveUrl('https://webdriver.io/docs/api/element/click/');
 });
 
-Then(/^the correct information\/page for Environment Variables is returned$/, async () => {
+Then(/^the correct Environment Variables page is returned$/, async () => {
     await browser.url('https://webdriver.io/docs/api/environment');
     await expect(browser).toHaveUrl('https://webdriver.io/docs/api/environment/');
 });
@@ -48,35 +49,30 @@ When(/^I click on the (.*) section in the left navigation bar$/, async (item: st
     await pages.leftNav.navItemClick(item.toLowerCase());
 });
 
-Then(/^the correct list under the Protocols section is displayed$/, async () => {
-    const navItemsProtocols = ['Appium', "Chromium", "Firefox", "JSON Wire Protocol", "Mobile JSON Wire Protocol", "Sauce Labs", "Selenium Standalone", "WebDriver Protocol", "WebDriver Bidi Protocol"];
-    
+Then(/^the correct list under the Protocols section is displayed$/, async () => {    
     await browser.waitUntil(async function() {
-    const items = await pages.leftNav.navItemProtocolsListItems;
-    let output:string[] = [];
+        const items = await pages.leftNav.navItemProtocolsListItems;
+        const output: (string | undefined)[] = await items.map(async (e, i) => {
+            const el = await e.getText();
 
-    await items.forEach(async (e, i)=> {
-        const et = await e.getText();
-        console.log('each ', et);
-        if (!!et) {
-            output.push(et)
-        }
-    })
+            return !!el ? el : '';
+        });
 
-    return output.length > 1;
+        return !!output && !!output[1];
     }, {
         timeout: 10000,
         timeoutMsg: 'success text not found',
-        interval: 5000,
-    })
+    });
 
-    const items = await pages.leftNav.navItemProtocolsListItems;
+    const navItemsText = await pages.leftNav.navItemProtocolsListItems;
 
-    await expect(items.length).toEqual(9);
+    await navItemsText.forEach(async (elem, index) => {
+        const currentText: string = await elem.getText();
 
-    await items.map(async (elem) => {
-        expect(navItemsProtocols).toContain(await elem.getText());
-    });  
+        await expect(NAV_ITEMS_PROTOCOLS).toContain(currentText);
+    });
+
+    await expect(navItemsText.length).toEqual(9);
 });
 
 Then(/^search results are displayed$/, async () => {
