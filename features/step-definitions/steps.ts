@@ -13,25 +13,26 @@ const pages = {
 const NAV_ITEMS_PROTOCOLS = ["Appium", "Chromium", "Firefox", "JSON Wire Protocol", "Mobile JSON Wire Protocol", "Sauce Labs", "Selenium Standalone", "WebDriver Protocol", "WebDriver Bidi Protocol"];
 
 Given(/^I am on the (\w+) page$/, async (page) => {
-    await pages[page].open()
+    await pages[page].open();
 });
 
 Given(/^I open webdriverio page$/, async () => {
-    await browser.url('/')
+    await browser.url('/');
 });
 
 When(/^I go to API$/, async () => {
-    pages.header.apiNavItemClick();
+    await pages.header.apiNavItemClick();
+    await pages.header.beadcrumbs.waitForExist({ timeout: 10000 });
 });
 
 When(/^I go to Environment Variables$/, async () => {
-    pages.header.navItemClick('environment');
+    await pages.header.navItemClick('environment');
 });
 
-When(/^search for (.*)$/, async (searchTerm) => {
-    pages.header.searchInputClick();
-    pages.header.searchInputClear();
-    pages.header.searchInputType(searchTerm);
+
+When(/^I search for (.*)$/, async (searchTerm) => {
+    await pages.header.searchClick();
+    await pages.header.searchInputType(searchTerm);
     await browser.keys(Key.Enter);
 });
 
@@ -45,8 +46,8 @@ Then(/^the correct Environment Variables page is returned$/, async () => {
     await expect(browser).toHaveUrl('https://webdriver.io/docs/api/environment/');
 });
 
-When(/^I click on the (.*) section in the left navigation bar$/, async (item: string) => {
-    await pages.leftNav.navItemClick(item.toLowerCase());
+When(/^I click on the (.*) section in the left navigation bar$/, async (navItem: string) => {
+    await pages.leftNav.navItemClick(navItem.toLowerCase());
 });
 
 Then(/^the correct list under the Protocols section is displayed$/, async () => {    
@@ -75,6 +76,15 @@ Then(/^the correct list under the Protocols section is displayed$/, async () => 
     await expect(navItemsText.length).toEqual(9);
 });
 
-Then(/^search results are displayed$/, async () => {
-    await expect(pages.header.searchResultsList).toBeDisplayed();
+Then(/^no search results are displayed$/, async () => {
+    await expect(await pages.header.searchNoResults).toBeDisplayed();
+});
+
+When(/^I open navigation (.*)$/, async (item: string) => {
+   await  pages.header.navItemClick(item);
+});
+
+Then(/^the corresponding (.*) is returned$/, async (page: string) => {
+    await browser.url('https://webdriver.io/' + page + '/');
+    await expect(browser).toHaveUrl('https://webdriver.io/' + page + '/');
 });

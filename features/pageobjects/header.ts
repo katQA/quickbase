@@ -10,23 +10,32 @@ class Header extends Page {
      */
 
     public get search() {
-        return $('span.DocSearch-Button-Placeholder');
+        return $('button.DocSearch.DocSearch-Button');
     }
 
     public get searchInput () {
-        return $('[id="docsearch-input"]');
+        return $('.DocSearch-Input');
     }
 
     public get searchResultsList () {
         return $('[id="docsearch-list"]');
     }
 
+    public get searchNoResults () {
+        return $('.DocSearch-NoResults');
+    }
+
+
     public navItem (item: string) {
-        return $('a[href="/docs/api/' + item + '"]');
+        return $('a[href="/' + item + '"]');
     }
 
     public get apiNavItem () {
         return $('a[href="/docs/api"]');
+    }
+
+    public get beadcrumbs () {
+        return $('ul.breadcrumbs');
     }
 
     public async apiNavItemClick() {
@@ -37,17 +46,25 @@ class Header extends Page {
         await this.navItem(item).click();
     }
 
-    public async searchInputClick() {
-        await this.search.click()
+    public async searchClick() {
+        await this.search.click();
     }
 
     public async searchInputClear() {
         await this.searchInput.clearValue();
     }
 
+    public async searchInputClick() {
+        await this.searchInput.click();
+    }
+
     public async searchInputType(searchTerm: string) {
         await this.searchInput.setValue(searchTerm);
     }
+
+    // public async searchInputType(searchTerm: string) {
+    //     await this.searchInput.setValue(searchTerm);
+    // }
 }
 
 export default new Header();
